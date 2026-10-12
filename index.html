@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ICU Sedation Pump</title>
+<style>
+body{font-family:system-ui,sans-serif;background:#f3f5f8;
+margin:0;padding:20px;color:#172033}
+main{max-width:480px;margin:auto;background:white;
+padding:24px;border-radius:18px}
+h2{margin-top:0}
+label{display:block;margin:18px 0 7px;font-weight:600}
+input,select{box-sizing:border-box;width:100%;
+padding:13px;font-size:18px;border:1px solid #aaa;
+border-radius:9px;background:white}
+.result{background:#eaf2ff;text-align:center;
+border-radius:14px;padding:22px;margin-top:22px}
+.result strong{font-size:36px}
+small{color:#596579;line-height:1.5}
+.warning{color:#a33122}
+</style>
+</head>
+<body>
+<main>
+<h2>ICU Sedation Pump</h2>
+<p>Adult continuous IV infusion calculator</p>
+
+<label>Patient weight (kg)</label>
+<input id="weight" type="number" value="60" min="1" max="500"
+step="0.1" oninput="calculate()">
+
+<label>Medication</label>
+<select id="drug" onchange="changeDrug()">
+<option value="prop">Propofol — 10 mg/mL</option>
+<option value="mid">Midazolam — 1 mg/mL</option>
+<option value="ket">Ketamine — 5 mg/mL</option>
+</select>
+
+<label>Dose (mg/kg/hr)</label>
+<select id="dose" onchange="calculate()"></select>
+
+<div class="result">
+<small>INFUSION PUMP RATE</small>
+<div><strong id="rate">—</strong></div>
+<small>mL/hr</small>
+<p id="formula"></p>
+</div>
+
+<p id="notice" class="warning"></p>
+<small>
+Calculation aid only. Verify medication, concentration,
+weight, order, and institutional protocol before use.
+Ketamine ICU sedation is off-label.
+</small>
+</main>
+
+<script>
+const meds = {
+prop:{c:10,doses:[0.3,0.6,1.2,1.8,2.4,3]},
+mid:{c:1,doses:[0.02,0.03,0.05,0.08,0.1]},
+ket:{c:5,doses:[0.3,0.5,0.75,1,1.5]}
+};
+function changeDrug(){
+ const med=meds[document.getElementById("drug").value];
+ const select=document.getElementById("dose");
+ select.innerHTML="";
+ med.doses.forEach(d=>{
+   const option=document.createElement("option");
+   option.value=d;
+   option.textContent=d+" mg/kg/hr";
+   select.appendChild(option);
+ });
+ calculate();
+}
+function calculate(){
+ const w=Number(document.getElementById("weight").value);
+ const drug=document.getElementById("drug").value;
+ const d=Number(document.getElementById("dose").value);
+ const rate=document.getElementById("rate");
+ const formula=document.getElementById("formula");
+ const notice=document.getElementById("notice");
+ if(!Number.isFinite(w)||w<=0||w>500){
+   rate.textContent="—";
+   formula.textContent="";
+   notice.textContent="請確認體重";
+   return;
+ }
+ const ml=w*d/meds[drug].c;
+ rate.textContent=ml.toFixed(2);
+ formula.textContent=`${w} × ${d} ÷ ${meds[drug].c}`;
+ notice.textContent=drug==="ket"?
+ "Ketamine: off-label ICU sedation dose range":"";
+}
+changeDrug();
+</script>
+</body>
+</html>
