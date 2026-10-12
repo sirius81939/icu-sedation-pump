@@ -1,6 +1,9 @@
 
 <!DOCTYPE html>
 <html lang="zh-Hant">
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#153c69">
+<link rel="apple-touch-icon" href="./icon-192.png">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -22,6 +25,15 @@ small{color:#596579;line-height:1.5}
 .warning{color:#a33122}
 </style>
 </head>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('./service-worker.js')
+      .catch(console.error);
+  });
+}
+</script>
 <body>
 <main>
 <h2>ICU Sedation Pump</h2>
