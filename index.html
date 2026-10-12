@@ -1,111 +1,49 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#e9f2ff"><meta name="apple-mobile-web-app-capable" content="yes"><title>ED Critical Care</title><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml"><style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#19283b;background:#f6f9ff}*{box-sizing:border-box}body{margin:0}header{background:#e9f2ff;padding:20px 16px 17px;border-bottom:1px solid #d7e6fc}main{max-width:650px;margin:auto;padding:14px 12px 45px}h1{font-size:21px;margin:0 0 5px}h2{font-size:17px;margin:0}p{margin:6px 0;line-height:1.45}.sub,.muted{color:#60728a;font-size:12px}.card{background:white;border:1px solid #dae5f3;border-radius:18px;padding:15px;margin-bottom:12px;box-shadow:0 2px 8px #193f6d08}.blue{background:#e9f2ff;border-radius:13px;padding:13px;margin:12px 0}.row{display:flex;align-items:center;justify-content:space-between;gap:9px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:5px;font-size:12px;color:#53657d}.field input,.field select{width:100%;min-width:0;border:1px solid #cad8eb;border-radius:10px;padding:11px;font-size:16px;background:white;color:#19283b}button{border:1px solid #bdd1ef;border-radius:10px;padding:10px 12px;background:white;color:#23599e;font-weight:650;cursor:pointer}button.primary{background:#245fac;color:white;border-color:#245fac}button.active{background:#245fac;color:white}button:disabled{opacity:.4}.tabs{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}.tabs button{font-size:12px;padding:8px 10px}.drug{width:100%;text-align:left;margin:4px 0;display:flex;justify-content:space-between;align-items:center}.drug.selected{outline:2px solid #567fae;outline-offset:1px}.drug{border-width:1px;transition:transform .12s,box-shadow .12s;min-height:52px;color:#24354a}.drug:active{transform:scale(.98)}.drug .arrow{font-size:19px;opacity:.7}.tabs button[data-cat]{background:var(--tile-bg,#eef3fa);border-color:var(--tile-border,#d8e3f0);color:var(--tile-ink,#334c67)}.tabs button[data-cat].active{box-shadow:inset 0 0 0 2px var(--tile-ink,#334c67)}.pill{font-size:11px;background:#e6f0ff;border-radius:15px;padding:5px 9px;color:#23599e}.big{font-size:37px;color:#164987;font-weight:750;letter-spacing:-1.2px;margin:3px 0}.warning{border:1px solid #e5a4a4;background:#fff7f7;color:#a12929;border-radius:12px;padding:11px;margin:9px 0;font-size:13px}.info{font-size:12px;color:#566a83;padding:8px 0}.hidden{display:none}details{border-top:1px solid #e2e9f3;padding-top:12px;margin-top:12px}summary{color:#275eaa;cursor:pointer;font-weight:600}footer{font-size:11px;color:#728099;margin-top:20px}.section{font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:#6682a5;margin:16px 3px 7px}small{font-size:11px}#list{display:grid;grid-template-columns:1fr 1fr;gap:7px}#list button{margin:0;font-size:12px;padding:12px 8px}.top{display:flex;justify-content:space-between;align-items:center;gap:8px}#back{padding:6px 9px}.quick{display:flex;gap:6px;flex-wrap:wrap}.quick button{padding:7px 9px;font-size:11px}@media(max-width:360px){.big{font-size:31px}.grid{gap:7px}}
 
-<!DOCTYPE html>
-<html lang="zh-Hant">
-<link rel="manifest" href="./manifest.webmanifest">
-<meta name="theme-color" content="#153c69">
-<link rel="apple-touch-icon" href="./icon-192.png">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ICU Sedation Pump</title>
-<style>
-body{font-family:system-ui,sans-serif;background:#f3f5f8;
-margin:0;padding:20px;color:#172033}
-main{max-width:480px;margin:auto;background:white;
-padding:24px;border-radius:18px}
-h2{margin-top:0}
-label{display:block;margin:18px 0 7px;font-weight:600}
-input,select{box-sizing:border-box;width:100%;
-padding:13px;font-size:18px;border:1px solid #aaa;
-border-radius:9px;background:white}
-.result{background:#eaf2ff;text-align:center;
-border-radius:14px;padding:22px;margin-top:22px}
-.result strong{font-size:36px}
-small{color:#596579;line-height:1.5}
-.warning{color:#a33122}
-</style>
-</head>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('./service-worker.js')
-      .catch(console.error);
-  });
-}
-</script>
-<body>
-<main>
-<h2>ICU Sedation Pump</h2>
-<p>Adult continuous IV infusion calculator</p>
-
-<label>Patient weight (kg)</label>
-<input id="weight" type="number" value="60" min="1" max="500"
-step="0.1" oninput="calculate()">
-
-<label>Medication</label>
-<select id="drug" onchange="changeDrug()">
-<option value="prop">Propofol — 10 mg/mL</option>
-<option value="mid">Midazolam — 1 mg/mL</option>
-<option value="ket">Ketamine — 5 mg/mL</option>
-</select>
-
-<label>Dose (mg/kg/hr)</label>
-<select id="dose" onchange="calculate()"></select>
-
-<div class="result">
-<small>INFUSION PUMP RATE</small>
-<div><strong id="rate">—</strong></div>
-<small>mL/hr</small>
-<p id="formula"></p>
-</div>
-
-<p id="notice" class="warning"></p>
-<small>
-Calculation aid only. Verify medication, concentration,
-weight, order, and institutional protocol before use.
-Ketamine ICU sedation is off-label.
-</small>
-</main>
-
-<script>
-const meds = {
-prop:{c:10,doses:[0.3,0.6,1.2,1.8,2.4,3]},
-mid:{c:1,doses:[0.02,0.03,0.05,0.08,0.1]},
-ket:{c:5,doses:[0.3,0.5,0.75,1,1.5]}
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:14px}.module{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;min-height:133px;padding:14px;text-align:left;border-radius:17px;border:1px solid var(--edge);background:var(--bg);color:var(--ink);box-shadow:0 2px 6px #1c3b5710;position:relative}.module-icon{font-size:26px;line-height:1.3}.module-text{display:flex;flex-direction:column;gap:5px}.module-text strong{font-size:14px;line-height:1.2}.module-text small{font-size:11px;color:var(--ink);opacity:.75}.module-arrow{position:absolute;right:13px;top:13px;font-size:23px;opacity:.6}.module:disabled{opacity:1;cursor:default}.module-infusion{--bg:#e5edff;--edge:#b8ccfa;--ink:#284f96}.module-emergency{--bg:#fff1dc;--edge:#f2d7a9;--ink:#89601f}.module-vent{--bg:#e3f6f5;--edge:#b1e2de;--ink:#176a69}.module-abg{--bg:#f0e9ff;--edge:#d6c3f6;--ink:#67439c}.module-electrolytes{--bg:#e1f5e9;--edge:#b5e5c6;--ink:#22684a}.module-scores{--bg:#e5f0fa;--edge:#b9d8ee;--ink:#2a5f84}@media(min-width:530px){.home-grid{grid-template-columns:repeat(3,1fr)}}
+</style></head><body><header><div style="max-width:650px;margin:auto"><div class="top"><h1>ED Critical Care</h1><span class="pill">Prototype v3</span></div><div class="sub">Adult Critical Care Tools · Offline-ready</div></div></header><main><div id="home">
+<div class="card"><h2>Critical Care Calculators</h2><p class="muted">Select a clinical tool.</p><div class="home-grid">
+<button class="module module-infusion" id="openPumps"><span class="module-icon">💉</span><span class="module-text"><strong>Infusion Pumps</strong><small>12 drug calculators</small></span><span class="module-arrow">›</span></button>
+<button class="module module-emergency" disabled><span class="module-icon">⚡</span><span class="module-text"><strong>Emergency Drugs</strong><small>Coming soon</small></span><span class="module-arrow">›</span></button>
+<button class="module module-vent" disabled><span class="module-icon">🫁</span><span class="module-text"><strong>Ventilator</strong><small>Coming soon</small></span><span class="module-arrow">›</span></button>
+<button class="module module-abg" disabled><span class="module-icon">🧪</span><span class="module-text"><strong>ABG</strong><small>Coming soon</small></span><span class="module-arrow">›</span></button>
+<button class="module module-electrolytes" disabled><span class="module-icon">💧</span><span class="module-text"><strong>Electrolytes</strong><small>Coming soon</small></span><span class="module-arrow">›</span></button>
+<button class="module module-scores" disabled><span class="module-icon">📊</span><span class="module-text"><strong>Scores</strong><small>Coming soon</small></span><span class="module-arrow">›</span></button>
+</div></div></div>
+<div id="pumps" class="hidden"><div class="top"><button id="backHome">← Home</button><span class="pill">Infusion Pumps</span></div><div class="card" style="margin-top:12px"><h2>Infusion Pumps</h2><p class="muted">Select a category or drug.</p><div id="categories" class="tabs"></div><div id="list"></div></div></div>
+<div id="calculator" class="hidden"><div class="top"><button id="back">← Infusion Pumps</button><span class="pill" id="categoryTag"></span></div><div class="card" style="margin-top:12px"><h2 id="drugName"></h2><p id="stock" class="muted"></p><div id="prep"></div><div id="extra"></div><div class="section">Dose & Rate</div><div class="grid" id="inputs"></div><div class="blue" style="text-align:center"><div class="muted">INFUSION RATE</div><div class="big" id="result">— mL/hr</div><div id="equivalent" class="muted"></div></div><div id="alerts"></div><details><summary>Label & Safety</summary><div id="safety" class="info"></div></details><div class="grid" style="margin-top:15px"><button id="reset">↻ Reset</button><button id="copy" class="primary">Copy Result</button></div></div></div><footer>Clinical calculation aid only. Verify the actual product, preparation, compatibility, orders and patient response. Not a substitute for local pharmacy approval.</footer></main><script>
+const groups={Sedation:['propofol','midazolam','ketamine'],Insulin:['insulin'],Vasopressors:['norepinephrine','dopamine','vasopressin','epinephrine'],Cardiovascular:['labetalol','nitroglycerin','amiodarone'],'Muscle Relaxants':['atracurium']};
+const drugs={
+propofol:{name:'Propofol',stock:'1% · 10 mg/mL · Ready-to-use',type:'fixed',mg:200,vol:20,unit:'mg/kg/hr',dose:.5,weight:60,safety:'Use the undiluted formulation. Monitor blood pressure, triglycerides, metabolic acidosis and PRIS risk. Product-specific dilution instructions apply.',ref:'Product concentration: 10 mg/mL.'},
+midazolam:{name:'Midazolam (Dormicum)',stock:'5 mg/1 mL per ampoule',type:'mix',ampMg:5,ampMl:1,amps:10,diluent:'NS',added:40,unit:'mg/kg/hr',dose:.05,weight:60,safety:'Titrate sedation to clinical target. Monitor hypotension, respiratory depression and accumulation. 1 mg/mL is a proposed preparation; confirm local compatibility and stability.',ref:'Label dilution varies by product; 1 mg/mL is not a universal labeled standard.'},
+ketamine:{name:'Ketamine',stock:'500 mg/10 mL · 50 mg/mL',type:'mix',ampMg:500,ampMl:10,amps:.5,diluent:'NS',added:45,unit:'mg/kg/hr',dose:.5,weight:60,safety:'This is a proposed off-label continuous sedation regimen. Monitor BP, HR, secretions and sedation. Confirm product-specific stability.',ref:'ICU continuous sedation does not have a universal label-defined dose range.'},
+insulin:{name:'Regular Insulin (HRI)',stock:'U-100 · 100 U/mL',type:'insulin',amount:100,final:100,unit:'U/kg/hr',dose:.1,weight:60,safety:'Actual bag volume may exceed the labeled 100 mL because of overfill. The 1 U/mL protocol concentration must be pharmacy validated. Monitor glucose and potassium frequently; use insulin infusion protocol.',ref:'No universal label-defined pump concentration range. Protocol preparation requires verification.'},
+norepinephrine:{name:'Norepinephrine (Levophed)',stock:'4 mg/4 mL per vial',type:'mix',ampMg:4,ampMl:4,amps:4,diluent:'D5W',added:234,unit:'mcg/kg/min',dose:.1,weight:60,safety:'Default assumes 4 vials plus 234 mL D5W to final 250 mL. Confirm actual bag volume and compatible diluent. Continuous BP and extravasation monitoring.',ref:'Premix strengths and concentrate dilution instructions are formulation-specific. No universal label weight-based upper dose.'},
+dopamine:{name:'Dopamine',stock:'Premix · 600 mg/200 mL · 3 mg/mL',type:'fixed',mg:600,vol:200,unit:'mcg/kg/min',dose:5,weight:60,safety:'Dose-effect categories overlap: ~0.5–2 dopaminergic, 2–10 beta-1, >10 increasing alpha-1. Low-dose dopamine is not recommended for renal protection. Monitor rhythm and perfusion.',ref:'Product-specific premix 3 mg/mL; dose titrated to response.'},
+vasopressin:{name:'Vasopressin (Pitressin)',stock:'20 U/1 mL per ampoule',type:'mix',ampMg:20,ampMl:1,amps:1,diluent:'NS',added:99,unit:'U/min',dose:.03,weight:60,safety:'Septic shock adjunct commonly 0.03 U/min. Watch for digital or mesenteric ischemia and sodium abnormalities. Default assumes final 100 mL, not addition to a full 100 mL bag.',ref:'US septic-shock label range: 0.01–0.07 U/min. Concentrate dilution instructions are formulation-specific.',range:[.01,.07]},
+epinephrine:{name:'Epinephrine (Adrenaline)',stock:'1 mg/1 mL per ampoule',type:'mix',ampMg:1,ampMl:1,amps:10,diluent:'NS',added:90,unit:'mcg/kg/min',dose:.1,weight:60,safety:'Monitor arrhythmias, ischemia, lactate and extravasation. NS-only dilution may not be appropriate for every concentrate product: verify pharmacy-approved diluent and stability.',ref:'US septic-shock label reference: 0.05–2 mcg/kg/min.',range:[.05,2]},
+labetalol:{name:'Labetalol (Trandate)',stock:'25 mg/5 mL per ampoule',type:'mix',ampMg:25,ampMl:5,amps:8,diluent:'NS',added:160,unit:'mg/hr',dose:10,weight:60,target:120,safety:'Monitor BP, HR, heart block, bronchospasm and heart failure. SBP target is indication-specific. US labeling describes 2 mg/min infusion with BP-guided titration, not a universal maximum.',ref:'Label preparation examples include ~0.69 and 1 mg/mL; these are not safety minimum/maximum limits.'},
+nitroglycerin:{name:'Nitroglycerin (NTG)',stock:'Premix · 50 mg/250 mL',type:'fixed',mg:50,vol:250,unit:'mcg/min',dose:10,weight:60,safety:'Use nonadsorptive tubing. Monitor BP and HR continuously during titration; reassess within minutes. Check PDE-5 inhibitors, riociguat and preload dependence.',ref:'200 mcg/mL is an approved premix strength. US label initial infusion commonly 5 mcg/min with titration; no universal maximum.'},
+amiodarone:{name:'Amiodarone',stock:'150 mg/3 mL per ampoule',type:'amio',ampMg:150,ampMl:3,amps:6,final:500,diluent:'D5W',unit:'mg/min',dose:1,weight:60,phase:'first',safety:'For labeled life-threatening ventricular arrhythmia regimen: 150 mg in D5W 100 mL over 10 min, then 1 mg/min × 6 h, then 0.5 mg/min × 18 h. D20W loading is NOT the standard US-label dilution; confirm pharmacy before use. Monitor ECG, BP, QTc, K and Mg.',ref:'Above 2 mg/mL: use central venous administration per US label. Later maintenance concentrations 1–6 mg/mL are phase-specific.'},
+atracurium:{name:'Atracurium Besylate',stock:'25 mg/2.5 mL per ampoule',type:'mix',ampMg:25,ampMl:2.5,amps:10,diluent:'NS',added:25,unit:'mcg/kg/min',dose:11,weight:60,safety:'PARALYTIC ONLY — provides no sedation or analgesia. Ensure adequate analgesia, deep sedation, secured airway, ventilation, TOF monitoring and eye care. Confirm local product stability.',ref:'ICU label-reported observed range 4.5–29.5 mcg/kg/min (not absolute safety bounds). Example tested concentration 5 mg/mL.',range:[4.5,29.5]}
 };
-function changeDrug(){
- const med=meds[document.getElementById("drug").value];
- const select=document.getElementById("dose");
- select.innerHTML="";
- med.doses.forEach(d=>{
-   const option=document.createElement("option");
-   option.value=d;
-   option.textContent=d+" mg/kg/hr";
-   select.appendChild(option);
- });
- calculate();
-}
-function calculate(){
- const w=Number(document.getElementById("weight").value);
- const drug=document.getElementById("drug").value;
- const d=Number(document.getElementById("dose").value);
- const rate=document.getElementById("rate");
- const formula=document.getElementById("formula");
- const notice=document.getElementById("notice");
- if(!Number.isFinite(w)||w<=0||w>500){
-   rate.textContent="—";
-   formula.textContent="";
-   notice.textContent="請確認體重";
-   return;
- }
- const ml=w*d/meds[drug].c;
- rate.textContent=ml.toFixed(2);
- formula.textContent=`${w} × ${d} ÷ ${meds[drug].c}`;
- notice.textContent=drug==="ket"?
- "Ketamine: off-label ICU sedation dose range":"";
-}
-changeDrug();
-</script>
-</body>
-</html>
+let current=null,state=null,cat='All';const $=id=>document.getElementById(id);const fmt=(v,d=2)=>Number.isFinite(v)?v.toFixed(d):'—';const unitOptions=['mL/hr','mcg/kg/min','mcg/min','mg/kg/hr','mg/hr','mg/min','U/kg/hr','U/hr','U/min'];
+const palette={All:['#edf2f8','#d6e0ec','#385472'],Sedation:['#e5edff','#b8ccfa','#284f96'],Insulin:['#e1f5e9','#b5e5c6','#22684a'],Vasopressors:['#e3f6f5','#b1e2de','#176a69'],Cardiovascular:['#f0e9ff','#d6c3f6','#67439c'],'Muscle Relaxants':['#fff2d9','#f4d9a1','#866018']};
+const drugPalette=[['#e5edff','#b8ccfa','#284f96'],['#e3f6f5','#b1e2de','#176a69'],['#f0e9ff','#d6c3f6','#67439c'],['#e1f5e9','#b5e5c6','#22684a'],['#fff2d9','#f4d9a1','#866018'],['#e5f0fa','#b9d8ee','#2a5f84'],['#f8eaf6','#e8c6e3','#874b7d'],['#e8f4e2','#c9e5b9','#4a7336'],['#e9edfa','#c6d0f1','#495e99'],['#e4f3ef','#bce2d5','#2b7563'],['#f6efdf','#e9d8b6','#82673b'],['#ece8fa','#d2c5ef','#615093']];
+function categories(){ $('categories').innerHTML=['All',...Object.keys(groups)].map(g=>{let p=palette[g];return `<button class="${cat===g?'active':''}" style="--tile-bg:${p[0]};--tile-border:${p[1]};--tile-ink:${p[2]}" data-cat="${g}">${g}</button>`}).join('');document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{cat=b.dataset.cat;categories();list()})}
+function list(){const keys=cat==='All'?Object.keys(drugs):groups[cat];$('list').innerHTML=keys.map(k=>{let p=drugPalette[Object.keys(drugs).indexOf(k)%drugPalette.length];return `<button class="drug" style="background:${p[0]};border-color:${p[1]};color:${p[2]}" data-drug="${k}">${drugs[k].name} <span class="arrow">›</span></button>`}).join('');document.querySelectorAll('[data-drug]').forEach(b=>b.onclick=()=>openDrug(b.dataset.drug))}
+function openDrug(k){current=k;state=structuredClone(drugs[k]);state.mode=state.unit;state.entry=state.dose;state.prepMode='final';$('home').classList.add('hidden');$('pumps').classList.add('hidden');$('calculator').classList.remove('hidden');render();window.scrollTo(0,0)}
+function concentration(){let s=state;if(s.type==='fixed')return {c:s.mg/s.vol,mg:s.mg,vol:s.vol};if(s.type==='insulin')return {c:s.amount/s.final,mg:s.amount,vol:s.final};if(s.type==='amio')return {c:s.amps*s.ampMg/s.final,mg:s.amps*s.ampMg,vol:s.final};let mg=s.amps*s.ampMg,vol=s.amps*s.ampMl+s.added;return {c:mg/vol,mg,vol}}
+function validPrep(){let s=state,q=concentration();return Number.isFinite(q.c)&&q.c>0&&q.vol>0&&q.vol<=3000&&q.mg>0&&(!['mix','amio'].includes(s.type)||((current==='ketamine'?Number.isFinite(s.amps):Number.isInteger(s.amps))&&s.amps>0&&s.amps<=100))&&(s.type!=='amio'||q.vol>=s.amps*s.ampMl)&&(s.type!=='mix'||s.added>=0)}
+function convertToRate(x,mode,c,w,k){let u=k==='insulin'||k==='vasopressin'?'U':null;let factor=u?1:1000;switch(mode){case'mL/hr':return x;case'mcg/kg/min':return x*w*60/(c*1000);case'mcg/min':return x*60/(c*1000);case'mg/kg/hr':return x*w/c;case'mg/hr':return x/c;case'mg/min':return x*60/c;case'U/kg/hr':return x*w/c;case'U/hr':return x/c;case'U/min':return x*60/c;default:return NaN}}
+function fromRate(r,mode,c,w){switch(mode){case'mL/hr':return r;case'mcg/kg/min':return r*c*1000/(w*60);case'mcg/min':return r*c*1000/60;case'mg/kg/hr':return r*c/w;case'mg/hr':return r*c;case'mg/min':return r*c/60;case'U/kg/hr':return r*c/w;case'U/hr':return r*c;case'U/min':return r*c/60;default:return NaN}}
+function rateNow(){return convertToRate(state.entry,state.mode,concentration().c,state.weight,current)}
+function input(label,key,value,step='any'){return `<label class="field">${label}<input type="number" inputmode="decimal" step="${step}" data-key="${key}" value="${value}"></label>`}
+function render(){let s=state,q=concentration();$('drugName').textContent=s.name;$('stock').textContent=s.stock;$('categoryTag').textContent=Object.keys(groups).find(g=>groups[g].includes(current));let prep='';if(s.type==='fixed'){prep=`<div class="blue"><div class="row"><b>Premixed / Ready-to-use</b><span>${fmt(q.c,3)} mg/mL</span></div><p class="muted">${q.mg} mg / ${q.vol} mL · No dilution</p></div>`}else if(s.type==='insulin'){prep=`<div class="blue"><b>Protocol Concentration (U/mL)</b><div class="grid" style="margin-top:9px">${input('Insulin Units','amount',s.amount)}${input('Validated Final Volume (mL)','final',s.final)}</div><p class="muted">Do not assume a full 100 mL bag plus insulin equals final 100 mL. Verify actual protocol concentration.</p><b>${fmt(q.c,3)} U/mL</b></div>`}else if(s.type==='amio'){prep=`<div class="blue"><b>Preparation · D5W</b><div class="grid" style="margin-top:9px">${input('Ampoules','amps',s.amps,1)}${input('Final Volume (mL)','final',s.final)}</div><p class="muted">Drug ${fmt(s.amps*s.ampMl,1)} mL · D5W to final ${q.vol} mL</p><b>${fmt(q.mg,1)} mg / ${fmt(q.vol,1)} mL · ${fmt(q.c,3)} mg/mL</b></div>`}else{prep=`<div class="blue"><b>Preparation</b><div class="grid" style="margin-top:9px">${input('Ampoules','amps',s.amps,'any')}${input(`${s.diluent} Added (mL)`,'added',s.added)}</div><p class="muted">Drug ${fmt(s.amps*s.ampMl,1)} mL + ${s.diluent} ${s.added} mL</p><b>${fmt(q.mg,2)} ${current==='vasopressin'?'U':current==='insulin'?'U':'mg'} / ${fmt(q.vol,2)} mL · ${fmt(q.c,3)} ${current==='vasopressin'?'U/mL':'mg/mL'}</b></div>`}if(s.type==='fixed'&&current==='dopamine')prep=prep.replace('mg/mL','mg/mL');$('prep').innerHTML=prep;
+let extra='';if(current==='amiodarone')extra=`<div class="blue"><div class="field">Infusion Phase<select data-key="phase"><option value="first" ${s.phase==='first'?'selected':''}>First 6 hours · 1 mg/min</option><option value="next" ${s.phase==='next'?'selected':''}>Next 18 hours · 0.5 mg/min</option></select></div><p class="muted">Loading: US label 150 mg in D5W 100 mL over 10 min. Local D20W 20 mL loading requires pharmacy verification.</p></div>`;if(current==='labetalol')extra=`<div class="blue">${input('Target SBP (mmHg)','target',s.target)}<p class="muted">Indication-specific goal; not a universal BP target.</p></div>`;$('extra').innerHTML=extra;
+let choices=current==='insulin'?['U/kg/hr','U/hr','mL/hr']:current==='vasopressin'?['U/min','mL/hr']:current==='labetalol'?['mL/hr','mg/hr','mg/min']:current==='amiodarone'?['mg/min','mL/hr','mg/hr']:current==='nitroglycerin'?['mL/hr','mcg/min','mg/hr']:current==='dopamine'||current==='epinephrine'||current==='norepinephrine'||current==='atracurium'?['mcg/kg/min','mcg/min','mL/hr']:['mg/kg/hr','mg/hr','mL/hr'];let weightNeeded=choices.some(x=>x.includes('/kg/'));$('inputs').innerHTML=`${weightNeeded?input('Weight (kg)','weight',s.weight):''}<label class="field">Dose Unit<select data-key="mode">${choices.map(u=>`<option ${s.mode===u?'selected':''}>${u}</option>`).join('')}</select></label>${input(`Dose / Rate (${s.mode})`,'entry',s.entry)}`;
+const r=rateNow(),valid=validPrep()&&Number.isFinite(s.entry)&&s.entry>=0&&Number.isFinite(r)&&r>=0&&s.weight>0;$('result').textContent=valid?fmt(r)+' mL/hr':'— mL/hr';let equiv=current==='insulin'||current==='vasopressin'?`${fmt(r*q.c,3)} U/hr · ${fmt(r*q.c/60,4)} U/min`:`${fmt(r*q.c,3)} mg/hr · ${fmt(r*q.c/60,4)} mg/min`;$('equivalent').textContent=valid?equiv:'Check preparation and dose';let alerts=[];if(!valid)alerts.push('Invalid preparation or dose.');if(valid&&s.range){let val=fromRate(r,s.unit,q.c,s.weight);if(val>0&&(val<s.range[0]||val>s.range[1]))alerts.push(`Outside label-referenced ${s.unit} range (${s.range[0]}–${s.range[1]}). This is not an absolute contraindication.`)}if(current==='amiodarone'&&valid&&q.c>2)alerts.push('Concentration >2 mg/mL: US labeling specifies central venous administration.');$('alerts').innerHTML=alerts.map(t=>`<div class="warning">⚠ ${t}</div>`).join('');$('safety').innerHTML=`<p><b>Concentration / Label Reference</b></p><p>${s.ref}</p><p><b>Safety</b></p><p>${s.safety}</p>`;
+document.querySelectorAll('[data-key]').forEach(el=>el.onchange=e=>{let key=e.target.dataset.key;if(key==='mode'){let rr=rateNow();s.mode=e.target.value;s.entry=Number(fmt(fromRate(rr,s.mode,q.c,s.weight),5))}else if(key==='phase'){s.phase=e.target.value;s.mode='mg/min';s.entry=s.phase==='first'?1:.5}else{s[key]=e.target.type==='number'?e.target.value===''?NaN:Number(e.target.value):e.target.value}render()});$('copy').disabled=!valid;$('copy').onclick=async()=>{let txt=`${s.name.toUpperCase()}\nStock: ${s.stock}\nPreparation: ${fmt(q.mg,2)} ${current==='vasopressin'||current==='insulin'?'U':'mg'} / ${fmt(q.vol,2)} mL\nConcentration: ${fmt(q.c,4)} ${current==='vasopressin'||current==='insulin'?'U/mL':'mg/mL'}\nInfusion: ${fmt(r,2)} mL/hr\n${equiv}\nVerify product and preparation.`;try{await navigator.clipboard.writeText(txt);$('copy').textContent='Copied ✓';setTimeout(()=>$('copy').textContent='Copy Result',1200)}catch(e){prompt('Copy result:',txt)}}}
+$('back').onclick=()=>{$('calculator').classList.add('hidden');$('pumps').classList.remove('hidden')};$('openPumps').onclick=()=>{$('home').classList.add('hidden');$('pumps').classList.remove('hidden');window.scrollTo(0,0)};$('backHome').onclick=()=>{$('pumps').classList.add('hidden');$('home').classList.remove('hidden');window.scrollTo(0,0)};$('reset').onclick=()=>openDrug(current);categories();list();if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script></body></html>
