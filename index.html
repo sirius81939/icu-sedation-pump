@@ -66,7 +66,70 @@ header h1{font-weight:700}
 .order-actions{display:flex;align-items:center;gap:8px;margin-top:3px;width:100%}.order-actions button{background:#ffffff80;color:inherit;border:1px solid currentColor;border-radius:8px;min-width:38px;min-height:38px;font-size:21px}.order-actions span{font-size:11px;opacity:.75}
 #pumps #categories .category-tile[draggable=true]{cursor:grab;touch-action:pan-y}
 #pumps #categories .category-drug:disabled{opacity:.7;cursor:default}
-</style></head><body><header><div style="max-width:650px;margin:auto"><div class="top"><h1>ED Critical Care</h1><span class="pill">Prototype v12</span></div><div class="sub">Adult Critical Care Tools · Offline-ready</div></div></header><main><div id="home">
+
+/* v13 — viewport-first compact layouts. All safety warnings remain visible.
+   Accessibility, keyboard and expanded safety content may scroll when necessary. */
+html{height:100%;-webkit-text-size-adjust:100%}
+body{min-height:100dvh}
+main{padding-bottom:8px}
+header{padding:11px 14px 9px}
+header h1{font-size:25px;line-height:1.1;margin:0}
+header .sub{font-size:11px;margin-top:2px}
+header .pill{font-size:10px;padding:3px 7px}
+#home>.card,#pumps>.card,#calculator>.card{margin-bottom:0}
+#home .card{padding:12px}
+#home h2{font-size:21px}
+#home .card>.muted{font-size:12px;margin:2px 0}
+.home-grid{gap:9px;margin-top:10px}
+.module{min-height:118px;padding:12px;border-radius:14px}
+.module-icon,.module-icon svg{width:23px;height:23px}
+.module-text{gap:3px}
+.module-text strong{font-size:19px;line-height:1.1}
+.module-text small{font-size:11px}
+#pumps>.top,#calculator>.top{min-height:33px}
+#pumps>.top button,#calculator>.top button{padding:6px 9px;font-size:12px}
+#pumps>.card,#calculator>.card{margin-top:6px!important;padding:10px 11px}
+#pumps h2{font-size:23px}
+#pumps .card>.muted{font-size:11px;margin:1px 0}
+.order-bar{margin-top:3px;gap:5px}
+.order-bar button{padding:5px 9px;font-size:11px}
+#pumps #categories{gap:8px;margin:7px 0 0}
+#pumps #categories .category-tile{padding:10px;gap:6px;border-radius:13px}
+#pumps #categories .tile-top{gap:5px}
+#pumps #categories .category-tile .tile-icon,#pumps #categories .category-tile .tile-icon svg{width:22px;height:22px}
+#pumps #categories .category-tile .tile-name{font-size:17px;line-height:1.1}
+#pumps #categories .category-tile .tile-meta{display:none}
+#pumps #categories .category-drugs{gap:2px 7px}
+#pumps #categories .category-drug{font-size:11px;padding:1px 0;line-height:1.15}
+#calculator h2{font-size:20px;line-height:1.12}
+#calculator #stock{font-size:11px;margin:2px 0 5px}
+#calculator .blue{padding:9px 10px;margin:6px 0;border-radius:11px}
+#calculator .blue p{font-size:10px;line-height:1.22;margin:4px 0}
+#calculator .blue b{font-size:12px}
+#calculator .grid{gap:7px}
+#calculator .field{gap:3px;font-size:11px;line-height:1.1}
+#calculator .field input,#calculator .field select{padding:8px 7px;border-radius:8px;font-size:16px;height:37px}
+#calculator .section{font-size:10px;margin:7px 1px 5px}
+#calculator #inputs{grid-template-columns:repeat(2,minmax(0,1fr));align-items:end}
+#calculator #inputs .field:last-child:nth-child(3){grid-column:1/-1}
+#calculator .big{font-size:31px;margin:1px 0;letter-spacing:-.7px;line-height:1.1}
+#calculator #equivalent{font-size:11px}
+#calculator details{padding-top:7px;margin-top:6px}
+#calculator summary{font-size:12px}
+#calculator .info{font-size:11px;line-height:1.35}
+#calculator .info p{margin:5px 0}
+#calculator .warning{padding:7px;font-size:11px;line-height:1.3;margin:5px 0}
+#calculator #reset,#calculator #copy{padding:9px;font-size:13px}
+#calculator details+.grid{margin-top:8px!important}
+footer{font-size:9px;line-height:1.3;margin:7px 2px}
+@media(min-width:375px){#calculator #inputs{grid-template-columns:repeat(3,minmax(0,1fr))}#calculator #inputs .field:last-child:nth-child(3){grid-column:auto}}
+@media(max-width:390px){.module{min-height:116px;padding:10px}.module-text strong{font-size:18px}.module-text small{font-size:11px}#pumps #categories .category-tile{padding:9px;gap:5px}#pumps #categories .category-tile .tile-name{font-size:16px}}
+@media(max-height:800px) and (max-width:530px){header{padding:8px 12px 6px}header h1{font-size:23px}main{padding:7px 9px 6px}.module{min-height:104px}.home-grid{gap:7px;margin-top:7px}#pumps #categories{gap:6px}#pumps #categories .category-tile{padding:8px}#calculator .blue{padding:7px 8px;margin:5px 0}#calculator .field input,#calculator .field select{height:35px;padding:6px}#calculator .big{font-size:28px}footer{margin-top:5px}}
+@media(max-height:690px) and (max-width:530px){header .sub{display:none}#home .card>.muted,#pumps .card>.muted{display:none}.module{min-height:95px}#pumps #categories .category-tile .tile-icon,#pumps #categories .category-tile .tile-icon svg{width:19px;height:19px}#calculator #stock{margin-bottom:2px}#calculator .section{margin:5px 1px 3px}}
+@media(max-width:530px){body:has(#calculator:not(.hidden)) footer{display:none}}
+/* Keep form values, warnings, and expandable safety readable rather than clipping content. */
+
+</style></head><body><header><div style="max-width:650px;margin:auto"><div class="top"><h1>ED Critical Care</h1><span class="pill">Prototype v13</span></div><div class="sub">Adult Critical Care Tools · Offline-ready</div></div></header><main><div id="home">
 <div class="card"><h2>Critical Care Calculators</h2><p class="muted">Select a clinical tool.</p><div class="home-grid">
 <button class="module module-infusion" id="openPumps"><span class="module-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 2 4 4M17 7l3-3M7 17l-4 4M8 16l-2-2 8-8 4 4-8 8-2-2ZM3 21l4-4M12 8l4 4"/></svg></span><span class="module-text"><strong>Infusion Pumps</strong><small>12 drug calculators</small></span><span class="module-arrow">›</span></button>
 <button class="module module-emergency" disabled><span class="module-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 10-12h-7l0-8Z"/></svg></span><span class="module-text"><strong>Emergency Drugs</strong><small>Coming soon</small></span><span class="module-arrow">›</span></button>
